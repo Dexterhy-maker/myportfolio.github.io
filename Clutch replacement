@@ -1,1 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dexter Chiu Portfolio</title>
+<meta name="description" content="Hands-on projects by Dexter Chiu, Electrical Techniques graduate in Markham, Ontario.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column like a shop job sheet. Header, then a featured
+   repair write-up (Complaint / Cause / Correction, timeline, photos), then
+   upcoming projects, credentials and contact. Cobalt accent, hi-vis marker for emphasis. */
+:root{
+  --bg:#f2f4f6; --surface:#ffffff; --ink:#18202a; --muted:#5a6672; --line:#d5dbe1;
+  --accent:#1f56b8; --accent-ink:#ffffff; --hivis:#e6f14a; --hivis-ink:#18202a;
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --step--1:.82rem; --step-0:1rem; --step-1:1.2rem; --step-2:1.6rem; --step-3:2.2rem; --step-4:clamp(2.8rem,8vw,4.6rem);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#11161c; --surface:#19212a; --ink:#e6ebf0; --muted:#9aa7b4; --line:#2c3743;
+  --accent:#7ea6f2; --accent-ink:#0e1520; --hivis:#d9e43c; --hivis-ink:#141a10; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11161c; --surface:#19212a; --ink:#e6ebf0; --muted:#9aa7b4; --line:#2c3743;
+  --accent:#7ea6f2; --accent-ink:#0e1520; --hivis:#d9e43c; --hivis-ink:#141a10; color-scheme:dark}
 
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--step-0);line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:860px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.05;text-wrap:balance;margin:0;letter-spacing:.005em}
+h2{font-size:var(--step-3)}
+h3{font-size:var(--step-2);font-weight:600}
+p{margin:0;max-width:65ch}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:2px}
+.label{font-family:var(--f-mono);font-size:var(--step--1);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+mark{background:var(--hivis);color:var(--hivis-ink);padding:0 .15em}
+
+/* top bar */
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:20px;border-bottom:1px solid var(--line)}
+.top .who{font-family:var(--f-display);font-weight:700;font-size:var(--step-1);letter-spacing:.04em;text-transform:uppercase}
+.top nav{display:flex;gap:18px;flex-wrap:wrap}
+.top nav a{color:var(--ink);text-decoration:none;font-size:var(--step--1);font-weight:500;text-transform:uppercase;letter-spacing:.08em}
+.top nav a:hover{color:var(--accent)}
+
+/* intro */
+.intro{padding-block:48px 40px;display:grid;gap:18px}
+.intro h1{font-size:var(--step-4);text-transform:uppercase}
+.intro .role{font-size:var(--step-1);color:var(--muted);max-width:60ch}
+.seeking{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--line);background:var(--surface);border-radius:4px;max-width:65ch}
+.seeking .label{color:var(--accent)}
+
+section{padding-block:44px;border-top:1px solid var(--line);display:grid;gap:22px}
+
+/* project head */
+.proj-head{display:grid;gap:10px}
+.spec{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.spec div{background:var(--surface);padding:10px 12px;display:grid;gap:2px;min-width:0}
+.spec b{font-weight:500;font-size:.95rem}
+.status{display:inline-flex;align-items:center;gap:6px}
+.status::before{content:"";width:8px;height:8px;border-radius:50%;background:#2f9e5a}
+.status.wait::before{background:#d0901f}
+
+figure{margin:0;display:grid;gap:8px}
+figure button{all:unset;cursor:zoom-in;display:block;border-radius:4px;overflow:hidden;background:var(--line)}
+figure button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+figure img{display:block;width:100%;height:100%;object-fit:cover}
+figcaption{font-size:var(--step--1);color:var(--muted);line-height:1.45}
+.lead-photo button{aspect-ratio:4/3;max-width:100%}
+
+/* complaint cause correction */
+.ccc{display:grid;gap:0;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+.ccc > div{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:16px;border-top:1px solid var(--line)}
+.ccc > div:first-child{border-top:0}
+.ccc .label{padding-top:3px}
+@media (max-width:520px){.ccc > div{grid-template-columns:1fr;gap:4px}}
+
+.story{display:grid;gap:14px}
+
+/* timeline */
+.timeline{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:step}
+.timeline li{position:relative;padding:0 0 22px 46px;counter-increment:step}
+.timeline li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:1px;font-family:var(--f-mono);font-size:var(--step--1);color:var(--accent);font-weight:500}
+.timeline li::after{content:"";position:absolute;left:32px;top:8px;bottom:-2px;width:1px;background:var(--line)}
+.timeline li:last-child::after{display:none}
+.timeline h4{font-family:var(--f-body);font-size:var(--step-0);font-weight:600;margin:0 0 2px}
+.timeline p{color:var(--ink)}
+
+/* method */
+.method{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;list-style:none;margin:0;padding:0;counter-reset:m}
+.method li{counter-increment:m;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:14px;display:grid;gap:4px;align-content:start;min-width:0}
+.method li::before{content:"Step " counter(m);font-family:var(--f-mono);font-size:var(--step--1);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.method b{font-weight:600}
+
+/* callout: pulley */
+.callout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.callout .text{display:grid;gap:12px;min-width:0}
+.callout figure button{aspect-ratio:3/4}
+@media (max-width:640px){.callout{grid-template-columns:1fr}}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.gallery figure button{aspect-ratio:1/1}
+
+/* skills shown */
+.shows{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 28px;margin:0;padding:0;list-style:none}
+.shows li{display:grid;gap:2px;padding-left:14px;border-left:3px solid var(--hivis);min-width:0}
+.shows b{font-weight:600}
+.shows span{color:var(--muted);font-size:.95rem}
+
+/* upcoming projects */
+.upcoming{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.upcoming div{border:1px dashed var(--line);border-radius:4px;padding:14px;display:grid;gap:4px;align-content:start}
+.upcoming b{font-weight:600}
+
+/* credentials */
+.creds{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
+.creds dl{margin:0;display:grid;gap:12px}
+.creds dt{font-weight:600}
+.creds dd{margin:0;color:var(--muted);font-size:.95rem}
+.creds h3{font-size:var(--step-1);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+
+.contact{display:grid;gap:12px}
+.todo{font-family:var(--f-mono);font-size:var(--step--1);background:var(--hivis);color:var(--hivis-ink);padding:2px 6px;border-radius:2px;justify-self:start}
+footer{padding-block:28px 40px;border-top:1px solid var(--line);color:var(--muted);font-size:var(--step--1)}
+
+/* meter readings */
+.readings{display:grid;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+.readings > div{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:16px;align-items:center;padding:12px 16px;border-top:1px solid var(--line)}
+.readings > div:first-child{border-top:0}
+.readings .val{font-family:var(--f-mono);font-size:var(--step-1);font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip{font-family:var(--f-mono);font-size:var(--step--1);text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.chip.ok{color:#2f8f55}
+.chip.fault{color:#c8452f}
+@media (max-width:520px){.readings > div{grid-template-columns:1fr auto}.readings .who-part{grid-column:1 / -1}}
+
+/* video */
+.clip{display:grid;gap:8px}
+.clip video{display:block;width:100%;max-width:100%;aspect-ratio:16/9;background:#000;border-radius:4px}
+
+/* lightbox */
+dialog{border:0;padding:0;background:transparent;max-width:min(96vw,1200px);max-height:92vh}
+dialog::backdrop{background:rgba(8,12,16,.88)}
+dialog img{display:block;max-width:100%;max-height:82vh;width:auto;margin:0 auto;border-radius:4px}
+dialog p{color:#e6ebf0;font-size:var(--step--1);text-align:center;margin:10px auto 0;max-width:70ch}
+dialog .close{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;border:0;font:inherit;font-size:var(--step--1);padding:6px 12px;border-radius:3px;cursor:pointer}
+@media (prefers-reduced-motion:no-preference){figure button img{transition:transform .25s ease}figure button:hover img{transform:scale(1.02)}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <span class="who">Dexter Chiu</span>
+    <nav aria-label="Sections">
+      <a href="#clutch">Projects</a>
+      <a href="#credentials">Credentials</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="intro">
+    <span class="label">Markham, Ontario</span>
+    <h1>I learn by fixing real things</h1>
+    <p class="role">Electrical Techniques graduate (Humber Polytechnic, 93.2% CGPA) with site supervision experience. This page documents projects I've planned and completed myself, with photos of each stage.</p>
+    <div class="seeking"><span class="label">Looking for</span><span>Electrical apprenticeship sponsorship (309A / 442A) or a project coordinator role with an electrical contractor.</span></div>
+  </div>
+
+  <section id="clutch" aria-labelledby="clutch-title">
+    <div class="proj-head">
+      <span class="label">Featured project</span>
+      <h2 id="clutch-title">Clutch replacement on a 2015 Mazda 3, done in my driveway</h2>
+    </div>
+
+    <div class="spec">
+      <div><span class="label">Vehicle</span><b>2015 Mazda 3 hatchback, manual</b></div>
+      <div><span class="label">Bought for</span><b>$2,500 (Marketplace)</b></div>
+      <div><span class="label">Workspace</span><b>Home driveway</b></div>
+      <div><span class="label">Status</span><b class="status">Road-ready</b></div>
+    </div>
+
+    <figure class="lead-photo">
+      <button type="button" data-full="img/finished.jpg" aria-label="Enlarge photo: the finished car"><img src="img/finished.jpg" alt="The black 2015 Mazda 3 hatchback parked in a lot after the repair, running and road-ready" width="1400" height="1050"></button>
+      <figcaption>Back on the road after the clutch job. Cosmetic work is ongoing.</figcaption>
+    </figure>
+
+    <div class="ccc" aria-label="Repair summary">
+      <div><span class="label">Complaint</span><p>The clutch failed completely on the drive home from Mississauga, on the day I bought the car. The engine ran but no power reached the wheels.</p></div>
+      <div><span class="label">Cause</span><p>Worn-out clutch friction disc. The previous owner's wear finished it off on the first long drive.</p></div>
+      <div><span class="label">Correction</span><p>Removed the transmission, replaced the clutch disc and pressure plate with genuine Mazda parts, reinstalled and road-tested.</p></div>
+    </div>
+
+    <div class="story">
+      <h3>Why I took it on</h3>
+      <p>After doing brake and strut jobs, I wanted a bigger test of my skills. My partner also needed a car for commuting, so I looked for a Mazda 3 at a good price that I could fix myself.</p>
+    </div>
+
+    <div class="story">
+      <h3>How it went</h3>
+      <ol class="timeline">
+        <li><h4>Bought the car and finished the paperwork</h4><p>Negotiated $2,500 on Facebook Marketplace and picked it up the following Monday.</p></li>
+        <li><h4>Breakdown on a busy road</h4><p>The clutch gave out near Dundas St W and Highway 427 during the afternoon. I kept traffic moving safely around the car and, with help from a passerby, pushed it out of the live lane.</p></li>
+        <li><h4>Arranged a tow</h4><p>Called a tow through my insurance right away and waited about 2.5 hours for the truck to reach me.</p></li>
+        <li><h4>Diagnosed and planned</h4><p>Confirmed the clutch had failed, then researched the procedure, made a parts list and set up a safe work area before starting.</p></li>
+        <li><h4>Teardown</h4><p>Supported the car on jack stands with wooden cribbing as backup, dropped the front subframe and lowered the transmission on a floor jack.</p></li>
+        <li><h4>New clutch installed</h4><p>Cleaned the bell housing and input shaft, then fitted the new genuine Mazda clutch disc and pressure plate.</p></li>
+        <li><h4>Transmission wouldn't line up</h4><p>Two neighbours helped me try to push it back into place, but the alignment was off. One of them suggested using rope to lift it instead.</p></li>
+        <li><h4>Built a lifting rig</h4><p>Hung a rope and pulley system from a 2x4 beam across the engine bay, which gave me enough control to bring the transmission into line and bolt it up.</p></li>
+        <li><h4>Road test passed</h4><p>The car now drives normally. I'm finishing cosmetic work.</p></li>
+      </ol>
+    </div>
+
+    <div class="callout">
+      <div class="text">
+        <h3>The problem I didn't plan for</h3>
+        <p>A transmission is heavy and has to slide onto the input shaft at exactly the right angle. Pushing from below with a floor jack and two extra people still wasn't precise enough.</p>
+        <p>A neighbour's suggestion to use rope led me to learn about <mark>mechanical advantage</mark>. I built a temporary block-and-tackle from a 2x4 beam, rope and pulleys. The pulleys reduced the force I needed and let me make small, controlled adjustments from above while the jack carried weight from below.</p>
+        <p>It was a cheap fix built from what I had, and it worked.</p>
+      </div>
+      <figure>
+        <button type="button" data-full="img/pulley.jpg" aria-label="Enlarge photo: rope and pulley rig"><img src="img/pulley.jpg" alt="Orange rope running through several pulleys hung from a 2x4 beam across the engine bay, connected down to the transmission" width="1050" height="1400" loading="lazy"></button>
+        <figcaption>Rope and pulleys hung from the 2x4 beam, rigged down to the transmission.</figcaption>
+      </figure>
+    </div>
+
+    <div class="story">
+      <h3>How I approach a problem I haven't solved before</h3>
+      <ol class="method">
+        <li><b>Diagnose</b><span>Find out what is actually wrong before buying anything.</span></li>
+        <li><b>Analyze and plan</b><span>Break the job into steps and spot what could go wrong.</span></li>
+        <li><b>Gather information</b><span>Research the procedure, specs and the tools it needs.</span></li>
+        <li><b>Learn the skill</b><span>Pick up the new technique or knowledge the job calls for.</span></li>
+        <li><b>Prepare materials</b><span>Have the parts, tools and safe supports ready before starting.</span></li>
+        <li><b>Ask for help when needed</b><span>Bring in other people's experience when I hit a limit.</span></li>
+      </ol>
+    </div>
+
+    <div class="story">
+      <h3>Photos</h3>
+      <div class="gallery">
+        <figure><button type="button" data-full="img/breakdown.jpg" aria-label="Enlarge photo: breakdown"><img src="img/breakdown.jpg" alt="The Mazda stopped at the curb of a busy road with the hatch open" width="1050" height="1400" loading="lazy"></button><figcaption>Stranded near Dundas St W and Hwy 427, hatch up to warn traffic.</figcaption></figure>
+        <figure><button type="button" data-full="img/tow.jpg" aria-label="Enlarge photo: tow"><img src="img/tow.jpg" alt="Tow truck operator attaching the Mazda to a wheel-lift tow truck" width="1050" height="1400" loading="lazy"></button><figcaption>Towed home through my insurance after a 2.5-hour wait.</figcaption></figure>
+        <figure><button type="button" data-full="img/subframe.jpg" aria-label="Enlarge photo: subframe removed"><img src="img/subframe.jpg" alt="Front subframe with steering rack and control arms lying on cardboard in front of the car, which sits on jack stands and wooden cribbing" width="1050" height="1400" loading="lazy"></button><figcaption>Front subframe dropped. The car sits on jack stands with wooden cribbing as backup.</figcaption></figure>
+        <figure><button type="button" data-full="img/bellhousing.jpg" aria-label="Enlarge photo: bell housing"><img src="img/bellhousing.jpg" alt="Transmission bell housing seen from below, supported on a floor jack" width="1050" height="1400" loading="lazy"></button><figcaption>Transmission lowered on a floor jack, bell housing exposed.</figcaption></figure>
+        <figure><button type="button" data-full="img/input-shaft.jpg" aria-label="Enlarge photo: cleaning"><img src="img/input-shaft.jpg" alt="Hand wiping clutch dust from inside the transmission bell housing with a shop towel" width="1050" height="1400" loading="lazy"></button><figcaption>Cleaning clutch dust out of the bell housing before reassembly.</figcaption></figure>
+        <figure><button type="button" data-full="img/clutch-disc.jpg" aria-label="Enlarge photo: clutch disc"><img src="img/clutch-disc.jpg" alt="New genuine Mazda clutch disc held above the new pressure plate" width="1400" height="1050" loading="lazy"></button><figcaption>New genuine Mazda clutch disc and pressure plate.</figcaption></figure>
+        <figure><button type="button" data-full="img/engine-support.jpg" aria-label="Enlarge photo: support beam"><img src="img/engine-support.jpg" alt="Open engine bay with a 2x4 beam laid across it and orange rope tied to the beam" width="1400" height="1050" loading="lazy"></button><figcaption>The 2x4 beam that anchored the lifting rig.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="story">
+      <h3>What this project shows</h3>
+      <ul class="shows">
+        <li><b>Mechanical aptitude</b><span>A drivetrain job I had never done, finished at home.</span></li>
+        <li><b>Safe work setup</b><span>Jack stands plus cribbing under a lifted car, never a jack alone.</span></li>
+        <li><b>Problem solving under pressure</b><span>Managed a roadside breakdown, then solved an alignment problem with a rig I built.</span></li>
+        <li><b>Working with people</b><span>Asked neighbours for help and used their advice to change my approach.</span></li>
+        <li><b>Sourcing and cost control</b><span>Built a relationship with a Mazda OEM parts supplier. After repeat orders they now give me 10% off.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="more-title">
+    <h2 id="more-title">More projects</h2>
+    <p>Write-ups with photos are on the way for these.</p>
+    <div class="upcoming">
+      <div><span class="label">Automotive</span><b>Brake pads and rotors</b></div>
+      <div><span class="label">Automotive</span><b>Strut replacement</b></div>
+      <div><span class="label">Low voltage</span><b>Dashcam hardwiring</b></div>
+      <div><span class="label">Electronics</span><b>MacBook Pro SSD upgrade</b></div>
+      <div><span class="label">Appliance</span><b>Electric stovetop repair</b></div>
+    </div>
+  </section>
+
+  <section id="credentials" aria-labelledby="cred-title">
+    <h2 id="cred-title">Training and credentials</h2>
+    <div class="creds">
+      <div>
+        <h3>Education</h3>
+        <dl>
+          <div><dt>Ontario College Certificate, Electrical Techniques</dt><dd>Humber Polytechnic, 2025. 93.2% CGPA, Dean's List twice, $3,000 technology scholarship.</dd></div>
+          <div><dt>BSocSc (Hons), Social and Public Policy Studies</dt><dd>Lingnan University, Hong Kong, 2019</dd></div>
+        </dl>
+      </div>
+      <div>
+        <h3>Safety and licences</h3>
+        <dl>
+          <div><dt>Working at Heights, WHMIS</dt><dd>IHSA, 2025</dd></div>
+          <div><dt>Standard First Aid and CPR/AED Level C</dt><dd>Canadian Red Cross, valid to 2029</dd></div>
+          <div><dt>Ontario G licence (clean record), M licence</dt><dd>Comfortable driving to job sites</dd></div>
+        </dl>
+      </div>
+      <div>
+        <h3>Experience</h3>
+        <dl>
+          <div><dt>Site Supervisor</dt><dd>Penguins Kitchen and Bath, 2024 to 2025</dd></div>
+          <div><dt>Electrical Helper</dt><dd>OakWill Electrical, 2024</dd></div>
+          <div><dt>Warehouse Keeper</dt><dd>GoldenHome Cabinetry, 2023 to 2024</dd></div>
+          <div><dt>Project Officer</dt><dd>Lingnan University, Hong Kong, 2019 to 2022</dd></div>
+        </dl>
+      </div>
+      <div>
+        <h3>Languages</h3>
+        <dl><div><dt>English, Cantonese, Mandarin</dt><dd>Fluent in all three</dd></div></dl>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact" aria-labelledby="contact-title">
+    <h2 id="contact-title">Contact</h2>
+    <p>I'm happy to walk through any of these projects in person or bring photos to an interview.</p>
+    <span class="todo">Email, phone and LinkedIn to be added</span>
+  </section>
+
+  <footer>Photos are my own. Licence plates are blurred.</footer>
+</div>
+
+<dialog id="lightbox" aria-label="Photo viewer">
+  <button class="close" type="button" id="lb-close">Close</button>
+  <img id="lb-img" alt="">
+  <p id="lb-cap"></p>
+</dialog>
+
+<script>
+(function(){
+  var dlg=document.getElementById('lightbox'),img=document.getElementById('lb-img'),cap=document.getElementById('lb-cap');
+  if(!dlg||typeof dlg.showModal!=='function')return;
+  document.querySelectorAll('figure button[data-full]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=b.querySelector('img'),fc=b.parentElement.querySelector('figcaption');
+      img.src=b.getAttribute('data-full');img.alt=t?t.alt:'';cap.textContent=fc?fc.textContent:'';
+      dlg.showModal();
+    });
+  });
+  document.getElementById('lb-close').addEventListener('click',function(){dlg.close()});
+  dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close()});
+})();
+</script>
+
+</body>
+</html>
