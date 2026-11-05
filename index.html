@@ -63,6 +63,7 @@ section{padding-block:44px;border-top:1px solid var(--line);display:grid;gap:22p
 .spec b{font-weight:500;font-size:.95rem}
 .status{display:inline-flex;align-items:center;gap:6px}
 .status::before{content:"";width:8px;height:8px;border-radius:50%;background:#2f9e5a}
+.status.wait::before{background:#d0901f}
 
 figure{margin:0;display:grid;gap:8px}
 figure button{all:unset;cursor:zoom-in;display:block;border-radius:4px;overflow:hidden;background:var(--line)}
@@ -126,6 +127,20 @@ figcaption{font-size:var(--step--1);color:var(--muted);line-height:1.45}
 .contact{display:grid;gap:12px}
 .todo{font-family:var(--f-mono);font-size:var(--step--1);background:var(--hivis);color:var(--hivis-ink);padding:2px 6px;border-radius:2px;justify-self:start}
 footer{padding-block:28px 40px;border-top:1px solid var(--line);color:var(--muted);font-size:var(--step--1)}
+
+/* meter readings */
+.readings{display:grid;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+.readings > div{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:16px;align-items:center;padding:12px 16px;border-top:1px solid var(--line)}
+.readings > div:first-child{border-top:0}
+.readings .val{font-family:var(--f-mono);font-size:var(--step-1);font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip{font-family:var(--f-mono);font-size:var(--step--1);text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.chip.ok{color:#2f8f55}
+.chip.fault{color:#c8452f}
+@media (max-width:520px){.readings > div{grid-template-columns:1fr auto}.readings .who-part{grid-column:1 / -1}}
+
+/* video */
+.clip{display:grid;gap:8px}
+.clip video{display:block;width:100%;max-width:100%;aspect-ratio:16/9;background:#000;border-radius:4px}
 
 /* lightbox */
 dialog{border:0;padding:0;background:transparent;max-width:min(96vw,1200px);max-height:92vh}
@@ -246,6 +261,75 @@ dialog .close{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);colo
         <li><b>Working with people</b><span>Asked neighbours for help and used their advice to change my approach.</span></li>
         <li><b>Sourcing and cost control</b><span>Built a relationship with a Mazda OEM parts supplier. After repeat orders they now give me 10% off.</span></li>
       </ul>
+    </div>
+  </section>
+
+  <section id="wiper" aria-labelledby="wiper-title">
+    <div class="proj-head">
+      <span class="label">Electrical diagnosis</span>
+      <h2 id="wiper-title">Tracing a dead rear wiper motor to its root cause</h2>
+    </div>
+
+    <div class="spec">
+      <div><span class="label">Vehicle</span><b>2015 Mazda 3 hatchback</b></div>
+      <div><span class="label">Component</span><b>Rear wiper motor (brushed DC)</b></div>
+      <div><span class="label">Tools</span><b>Digital multimeter</b></div>
+      <div><span class="label">Status</span><b class="status wait">Waiting for new brushes</b></div>
+    </div>
+
+    <div class="ccc" aria-label="Repair summary">
+      <div><span class="label">Complaint</span><p>The rear window wiper stopped working.</p></div>
+      <div><span class="label">Cause</span><p>The output shaft that drives the wiper arm was seized by old grease mixed with road salt, dirt and moisture. With the shaft locked, the motor stalled every time the wiper was switched on, and the stall current burned out its carbon brushes.</p></div>
+      <div><span class="label">Correction</span><p>Cleaned every component and re-greased the shaft so it turns freely. New brushes are on order. I'll fit them and test the motor when they arrive.</p></div>
+    </div>
+
+    <div class="story">
+      <h3>How I found the fault</h3>
+      <p>I took the motor apart and tested each part of the circuit with my multimeter. Inside is a small brushed DC motor driving a gear train that turns the shaft the wiper arm mounts on.</p>
+      <div class="readings" aria-label="Multimeter readings">
+        <div><span class="who-part">Armature windings and other components</span><span class="val">0.2&ndash;0.5 &Omega;</span><span class="chip ok">Continuity</span></div>
+        <div><span class="who-part">Across the brushes and terminals</span><span class="val">OL</span><span class="chip fault">Open circuit</span></div>
+      </div>
+      <p>Every part read normal except the brushes and terminals. The meter showed OL there, meaning there was no path for current to reach the armature. That pinned the fault to the brushes.</p>
+      <p>The output shaft was also stuck solid. Years of grease had mixed with road salt, dust and moisture and hardened around it.</p>
+    </div>
+
+    <div class="story">
+      <h3>Why a seized shaft burns out the brushes</h3>
+      <p>A spinning DC motor also works as a generator. As it turns, it produces a voltage called back-EMF that pushes against the supply and limits how much current the motor draws.</p>
+      <p>When the shaft is seized, the motor can't turn, so there is <mark>no back-EMF</mark>. Current climbs to its maximum, limited only by the low resistance of the windings. My readings show why that matters: with only a fraction of an ohm in the circuit, Ohm's law gives 12 V &divide; 0.5 &Omega; = 24 A, far more than a small wiper motor is built to carry. That heat, plus arcing where the brushes meet the commutator, is what burned them.</p>
+      <p>New brushes alone would have burned out again, so I fixed the seized shaft first.</p>
+    </div>
+
+    <div class="story">
+      <h3>What this project shows</h3>
+      <ul class="shows">
+        <li><b>Using a meter to diagnose</b><span>Tested the circuit before replacing parts.</span></li>
+        <li><b>Motor theory in practice</b><span>Linked a mechanical fault to an electrical failure.</span></li>
+        <li><b>Root-cause repair</b><span>Fixed what killed the brushes, not just the brushes.</span></li>
+      </ul>
+    </div>
+
+    <div class="story">
+      <h3>Teardown video</h3>
+      <div class="clip">
+        <video controls playsinline preload="metadata" poster="img/wiper-video-poster.jpg">
+          <source src="media/wiper-teardown.mp4" type="video/mp4">
+        </video>
+        <p class="label">1 minute. Gear train, output shaft, armature and brush holder.</p>
+      </div>
+    </div>
+
+    <div class="story">
+      <h3>Photos</h3>
+      <div class="gallery">
+        <figure><button type="button" data-full="img/wiper-meter.jpg" aria-label="Enlarge photo: meter test"><img src="img/wiper-meter.jpg" alt="Opened wiper motor on the floor with multimeter leads attached and the meter reading OL" width="1050" height="1400" loading="lazy"></button><figcaption>Testing the opened motor. The meter reads OL through the brush circuit.</figcaption></figure>
+        <figure><button type="button" data-full="img/wiper-gearbox.jpg" aria-label="Enlarge photo: gearbox"><img src="img/wiper-gearbox.jpg" alt="Wiper motor gearbox held open, showing the drive gear, crank and old yellow grease" width="1050" height="1400" loading="lazy"></button><figcaption>Gearbox opened, with old grease packed around the gears and crank.</figcaption></figure>
+        <figure><button type="button" data-full="img/wiper-cover.jpg" aria-label="Enlarge photo: gearbox cover"><img src="img/wiper-cover.jpg" alt="Clear gearbox cover with printed contact tracks held in front of the multimeter" width="1400" height="1050" loading="lazy"></button><figcaption>Gearbox cover with its printed contact tracks, checked for continuity.</figcaption></figure>
+        <figure><button type="button" data-full="img/wiper-shaft.jpg" aria-label="Enlarge photo: output shaft"><img src="img/wiper-shaft.jpg" alt="Wiper output shaft and crank removed from the gearbox" width="1400" height="788" loading="lazy"></button><figcaption>The output shaft that had seized, removed for cleaning.</figcaption></figure>
+        <figure><button type="button" data-full="img/wiper-armature.jpg" aria-label="Enlarge photo: armature"><img src="img/wiper-armature.jpg" alt="Motor armature with copper windings and commutator" width="1400" height="788" loading="lazy"></button><figcaption>Armature and commutator. The windings tested normal.</figcaption></figure>
+        <figure><button type="button" data-full="img/wiper-brushes.jpg" aria-label="Enlarge photo: brush holder"><img src="img/wiper-brushes.jpg" alt="Teal brush holder assembly held between fingers" width="1400" height="788" loading="lazy"></button><figcaption>Brush holder, where the burned brushes sit.</figcaption></figure>
+      </div>
     </div>
   </section>
 
